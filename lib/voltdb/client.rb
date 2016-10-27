@@ -2,6 +2,7 @@ module Voltdb
   class ClientConfig < Java::OrgVoltdbClient::ClientConfig; end
 
   class Client
+    include ClientUtils
     extend Forwardable
 
     java_import Java::OrgVoltdbClient::Client
@@ -21,12 +22,16 @@ module Voltdb
       @java_client = java_client
     end
 
+    def call_procedure(proc_name, *params)
+      @java_client.call_procedure(proc_name, *params_to_java_objects(*params))
+    end
+
     def java_client
       @java_client
     end
 
     def_delegators :@java_client,
-      :call_procedure, :create_connection, :call_procedure_with_timeout,
+      :create_connection, :call_procedure_with_timeout,
       :update_application_catalog, :update_classes, :drain, :close,
       :create_stats_context, :get_instance_id, :get_build_string,
       :get_throughput_and_outstanding_txn_limits, :get_connected_host_list,
