@@ -12,6 +12,19 @@ module Voltdb
     end
   end
 
+  class BulkLoaderFailureCallback
+    include Java::OrgVoltdbClient::ClientResponse
+    include Java::OrgVoltdbClientVoltBulkLoader::BulkLoaderFailureCallBack
+
+    def initialize(&block)
+      @block = block
+    end
+
+    def failure_callback(row_handle, field_list, client_response)
+      @block.call(row_handle, field_list.to_ary, client_response)
+    end
+  end
+
   class AllPartitionProcCallback
     java_import Java::OrgVoltdbClient::ClientResponseWithPartitionKey
     include Java::OrgVoltdbClient::AllPartitionProcedureCallback

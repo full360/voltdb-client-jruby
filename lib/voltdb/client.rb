@@ -68,6 +68,16 @@ module Voltdb
       java_client.get_connected_host_list.to_ary
     end
 
+    def get_new_bulk_loader(table_name, max_batch_size, upsert, &block)
+      cb = BulkLoaderFailureCallback.new(&block)
+
+      if upsert
+        java_client.get_new_bulk_loader(table_name, max_batch_size, upsert, cb)
+      else
+        java_client.get_new_bulk_loader(table_name, max_batch_size, cb)
+      end
+    end
+
     def call_all_partition_procedure(proc_name, *params, &block)
       if block_given?
         cb = AllPartitionProcCallback.new(&block)
@@ -79,6 +89,6 @@ module Voltdb
 
     def_delegators :java_client,
       :create_connection, :drain, :close, :create_stats_context,
-      :get_build_string, :get_new_bulk_loader, :write_summary_csv
+      :get_build_string, :write_summary_csv
   end
 end
