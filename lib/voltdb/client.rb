@@ -38,8 +38,34 @@ module Voltdb
       end
     end
 
+    def update_classes(jar_path, classes_to_delete, &block)
+      if block_given?
+        cb = ProcCallback.new(&block)
+        java_client.update_classes(cb, jar_path, classes_to_delete)
+      else
+        java_client.update_classes(jar_path, classes_to_delete)
+      end
+    end
+
+    def update_application_catalog(catalog_path, deployment_path, &block)
+      if block_given?
+        cb = ProcCallback.new(&block)
+        java_client.update_application_catalog(cb, catalog_path, deployment_path)
+      else
+        java_client.update_application_catalog(catalog_path, deployment_path)
+      end
+    end
+
     def get_instance_id
       java_client.get_instance_id.to_ary
+    end
+
+    def get_throughput_and_outstanding_txn_limits
+      java_client.get_throughput_and_outstanding_txn_limits.to_ary
+    end
+
+    def get_connected_host_list
+      java_client.get_connected_host_list.to_ary
     end
 
     def call_all_partition_procedure(proc_name, *params, &block)
@@ -52,9 +78,7 @@ module Voltdb
     end
 
     def_delegators :java_client,
-      :create_connection, :update_application_catalog, :update_classes, :drain,
-      :close, :create_stats_context, :get_build_string, :get_new_bulk_loader,
-      :get_throughput_and_outstanding_txn_limits, :get_connected_host_list,
-      :write_summary_csv
+      :create_connection, :drain, :close, :create_stats_context,
+      :get_build_string, :get_new_bulk_loader, :write_summary_csv
   end
 end
