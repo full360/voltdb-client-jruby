@@ -3,8 +3,10 @@ require "forwardable"
 require "date"
 
 module Voltdb
-  autoload :ClientUtils,  "voltdb/client_utils"
-  autoload :ClientConfig, "voltdb/client"
-  autoload :Client,       "voltdb/client"
-  autoload :VERSION,      "voltdb/version"
+  autoload :ClientConfig,             "voltdb/client"
+  autoload :ClientUtils,              "voltdb/client_utils"
+  autoload :Client,                   "voltdb/client"
+  autoload :ProcCallback,             "voltdb/callbacks"
+  autoload :AllPartitionProcCallback, "voltdb/callbacks"
+  autoload :VERSION,                  "voltdb/version"
 end
