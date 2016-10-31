@@ -3,6 +3,10 @@ module Voltdb
     java_import Java::OrgVoltdbTypes::TimestampType
     java_import Java::OrgVoltdbClient::Client
 
+    # Transform Ruby objects to Java objects that VoltDB understands
+    #
+    # @param *params [Array<Object>] list of params
+    # @return [Array<JavaObjects>]
     def params_to_java_objects(*params)
       params.map do |param|
         case param
@@ -14,6 +18,11 @@ module Voltdb
       end
     end
 
+    # Transform a host:port or a host into an array of host and port
+    #
+    # @param address [String] voltdb server address
+    # @param default_port [Fixnum] override the default voltdb server port
+    # @return [Array<String, Fixnum>] represents host address and port
     def host_and_port_from_address(address, default_port = Client.VOLTDB_SERVER_PORT)
       s = address.split(":")
 
