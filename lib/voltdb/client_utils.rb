@@ -10,7 +10,7 @@ module Voltdb
     def params_to_java_objects(*params)
       params.map do |param|
         case param
-        when DateTime || Date || Time
+        when DateTime, Date, Time
           TimestampType.new(param.strftime("%F %T.%L"))
         else
           param
