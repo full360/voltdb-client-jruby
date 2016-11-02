@@ -13,6 +13,7 @@ module Voltdb
   end
 
   class BulkLoaderFailureCallback
+    java_import "org.voltdb.client.VoltBulkLoader.BulkLoaderFailureCallBack"
     include Java::OrgVoltdbClient::ClientResponse
     include Java::OrgVoltdbClientVoltBulkLoader::BulkLoaderFailureCallBack
 
