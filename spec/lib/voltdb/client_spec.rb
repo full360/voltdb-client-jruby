@@ -127,7 +127,7 @@ describe Voltdb::Client do
       let(:blfcb) { Voltdb::BulkLoaderFailureCallback }
       let(:cb) { blfcb.new }
 
-      context "when sync call" do
+      context "when upsert is not used" do
         it "calls get_new_bulk_loader with the correct params" do
           allow(blfcb).to receive(:new).with(any_args).and_return(cb)
 
@@ -139,7 +139,7 @@ describe Voltdb::Client do
         end
       end
 
-      context "when async call" do
+      context "when upsert is used" do
         it "calls get_new_bulk_loader with the correct params" do
           allow(blfcb).to receive(:new).with(any_args).and_return(cb)
 
