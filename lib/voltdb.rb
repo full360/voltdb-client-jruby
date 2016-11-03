@@ -9,5 +9,8 @@ module Voltdb
   autoload :ProcCallback,              "voltdb/callbacks"
   autoload :BulkLoaderFailureCallback, "voltdb/callbacks"
   autoload :AllPartitionProcCallback,  "voltdb/callbacks"
+  autoload :ClientResponseUtils,       "voltdb/client_response_utils"
+  autoload :VoltTableUtils,            "voltdb/volt_table_utils"
+  autoload :VoltTableRowUtils,         "voltdb/volt_table_row_utils"
   autoload :VERSION,                   "voltdb/version"
 end

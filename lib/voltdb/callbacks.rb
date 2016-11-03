@@ -8,6 +8,7 @@ module Voltdb
     end
 
     def client_callback(client_response)
+      client_response.extend(ClientResponseUtils)
       @block.call(client_response)
     end
   end
@@ -22,6 +23,7 @@ module Voltdb
     end
 
     def failure_callback(row_handle, field_list, client_response)
+      client_response.extend(ClientResponseUtils)
       @block.call(row_handle, field_list.to_ary, client_response)
     end
   end
@@ -35,7 +37,12 @@ module Voltdb
     end
 
     def client_callback(client_response_with_partition_key)
-      @block.call(client_response_with_partition_key.to_ary)
+      response = client_response_with_partition_key.to_ary.map do |partition|
+        partition.response.extend(ClientResponseUtils)
+        partition
+      end
+
+      @block.call(response)
     end
   end
 end
