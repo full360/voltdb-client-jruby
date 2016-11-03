@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'voltdb/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "voltdb"
+  spec.name          = "voltdbjruby"
   spec.version       = Voltdb::VERSION
   spec.authors       = ["Alberto Grespan"]
   spec.email         = ["alberto@albertogrespan.com"]
