@@ -16,13 +16,12 @@ module Voltdb
     # @return [Array<Object, Object>]
     def self.map_volt_table(volt_table, &block)
       results = []
+
       volt_table.reset_row_position
+      volt_table.extend(VoltTableRowUtils)
 
-      volt_table_dup = volt_table.dup
-      volt_table_dup.extend(VoltTableRowUtils)
-
-      while(volt_table_dup.advance_row) do
-        results << block.call(volt_table_dup)
+      while(volt_table.advance_row) do
+        results << block.call(volt_table)
       end
 
       results
@@ -37,12 +36,10 @@ module Voltdb
     # @return [Object, nil]
     def self.map_first_row_from_volt_table(volt_table, &block)
       volt_table.reset_row_position
+      volt_table.extend(VoltTableRowUtils)
 
-      volt_table_dup = volt_table.dup
-      volt_table_dup.extend(VoltTableRowUtils)
-
-      if(volt_table_dup.advance_row)
-        block.call(volt_table_dup)
+      if(volt_table.advance_row)
+        block.call(volt_table)
       else
         nil
       end
