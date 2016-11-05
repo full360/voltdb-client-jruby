@@ -11,6 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{JRuby VoltDB client wrapper}
   spec.description   = %q{JRuby VoltDB java client wrapper}
+  spec.homepage      = "https://github.com/full360/voltdb-client-jruby"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
