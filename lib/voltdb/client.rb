@@ -8,6 +8,9 @@ module Voltdb
     java_import Java::OrgVoltdbClient::Client
     java_import Java::OrgVoltdbClient::ClientFactory
 
+    # Persist ClientResponseImpl to avoid the warning when we extend the object
+    Java::OrgVoltdb::ClientResponseImpl.__persistent__ = true
+
     attr_reader :java_client
 
     # Factory of Voltdb::Client
@@ -39,7 +42,9 @@ module Voltdb
         cb = ProcCallback.new(&block)
         java_client.call_procedure(cb, proc_name, *params_to_java_objects(*params))
       else
-        java_client.call_procedure(proc_name, *params_to_java_objects(*params))
+        response = java_client.call_procedure(proc_name, *params_to_java_objects(*params))
+        response.extend(ClientResponseUtils)
+        response
       end
     end
 
@@ -60,7 +65,9 @@ module Voltdb
         cb = ProcCallback.new(&block)
         java_client.call_procedure_with_timeout(cb, query_timeout, proc_name, *params_to_java_objects(*params))
       else
-        java_client.call_procedure_with_timeout(query_timeout, proc_name, *params_to_java_objects(*params))
+        response = java_client.call_procedure_with_timeout(query_timeout, proc_name, *params_to_java_objects(*params))
+        response.extend(ClientResponseUtils)
+        response
       end
     end
 
@@ -83,7 +90,9 @@ module Voltdb
         cb = ProcCallback.new(&block)
         java_client.update_application_catalog(cb, catalog_path, deployment_path)
       else
-        java_client.update_application_catalog(catalog_path, deployment_path)
+        response = java_client.update_application_catalog(catalog_path, deployment_path)
+        response.extend(ClientResponseUtils)
+        response
       end
     end
 
@@ -107,7 +116,9 @@ module Voltdb
         cb = ProcCallback.new(&block)
         java_client.update_classes(cb, jar_path, classes_to_delete)
       else
-        java_client.update_classes(jar_path, classes_to_delete)
+        response = java_client.update_classes(jar_path, classes_to_delete)
+        response.extend(ClientResponseUtils)
+        response
       end
     end
 
@@ -175,7 +186,11 @@ module Voltdb
         cb = AllPartitionProcCallback.new(&block)
         java_client.call_all_partition_procedure(cb, proc_name, *params_to_java_objects(*params))
       else
-        java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).to_ary
+        partitions = java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).to_ary
+        partitions.map do |partition|
+          partition.response.extend(ClientResponseUtils)
+          partition
+        end
       end
     end
 
