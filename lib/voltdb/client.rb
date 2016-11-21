@@ -186,8 +186,7 @@ module Voltdb
         cb = AllPartitionProcCallback.new(&block)
         java_client.call_all_partition_procedure(cb, proc_name, *params_to_java_objects(*params))
       else
-        partitions = java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).to_ary
-        partitions.map do |partition|
+        java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).map do |partition|
           partition.response.extend(ClientResponseUtils)
           partition
         end

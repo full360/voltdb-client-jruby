@@ -37,7 +37,7 @@ module Voltdb
     end
 
     def client_callback(client_response_with_partition_key)
-      response = client_response_with_partition_key.to_ary.map do |partition|
+      response = client_response_with_partition_key.map do |partition|
         partition.response.extend(ClientResponseUtils)
         partition
       end
