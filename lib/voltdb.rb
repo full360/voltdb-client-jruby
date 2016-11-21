@@ -3,6 +3,7 @@ require "forwardable"
 require "date"
 
 module Voltdb
+  autoload :ClientResponseStatusError, "voltdb/exceptions"
   autoload :ClientConfig,              "voltdb/client"
   autoload :ClientUtils,               "voltdb/client_utils"
   autoload :Client,                    "voltdb/client"

@@ -54,19 +54,19 @@ User = Struct.new(:id, :name)
 response = voltdb_client.call_procedure("GetUsers")
 
 response.map(0) do |row|
-  User(row.get_long(0), row.get_string(1))
+  User.new(row.get_long(0), row.get_string(1))
 end
 
 response = voltdb_client.call_procedure("GetUser", 1)
 
 response.map_first_row(0) do |row|
-  User(row.get_long(0), row.get_string(1))
+  User.new(row.get_long(0), row.get_string(1))
 end
 
 # Asynchronous example
 queued = voltdb_client.call_procedure("GetUsers") do |response|
   response.map(0) do |row|
-    User(row.get_long(0), row.get_string(1))
+    User.new(row.get_long(0), row.get_string(1))
   end
 end
 ```
@@ -79,7 +79,7 @@ User = Struct.new(:id, :name, :active, :created_at)
 response = voltdb_client.call_procedure("GetUser", 1)
 
 response.map_first_row(0) do |row|
-  User(
+  User.new(
     row.get_long(0),
     row.get_string(1),
     row.get_long_as_boolean(2),
