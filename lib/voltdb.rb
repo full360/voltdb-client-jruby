@@ -1,4 +1,4 @@
-require "java/voltdbclient-6.6.jar"
+require "java/voltdbclient-6.8.jar"
 require "forwardable"
 require "date"
 
