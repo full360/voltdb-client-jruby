@@ -31,7 +31,7 @@ module Voltdb
     # @return [Array<Object>]
     def self.map_first_row_from_client_response_result(client_response, index, validate_status = true, &block)
       validate_client_response_status(client_response) if (validate_status)
-      VoltTableUtils.map_volt_table(client_response.get_results[index], &block)
+      VoltTableUtils.map_first_row_from_volt_table(client_response.get_results[index], &block)
     end
 
     # Checks that the status of the client response is SUCCESS. If not, it
