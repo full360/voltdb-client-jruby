@@ -9,6 +9,16 @@ module Voltdb
       self.get_long(column_index_or_name) == 1
     end
 
+    # Get the value of the column or nil
+    #
+    # @param column_index_or_name [Fixnum, String]
+    # @return [VoltType, Boolean]
+    def get_long_or_nil(column_index_or_name)
+      value = self.get_long(column_index_or_name)
+
+      self.was_null? ? nil : value
+    end
+
     # Get a Ruby DateTime from a VoltTableRow timestamp type value
     #
     # @param column_index_or_name [Fixnum, String]
