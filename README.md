@@ -1,6 +1,6 @@
 # Voltdb JRuby Client
 
-This gem is a wrapper JRuby to the VoltDB Java client.
+A thin wrapper around the VoltDB Java client.
 
 ## Installation
 
@@ -15,6 +15,19 @@ And then execute:
 Or install it yourself as:
 
     $ gem install voltdbjruby
+
+Use `jbundler`, `lock_jar` or a similar to download and load the `voltdbclient`
+jar in the CLASSPATH. For example using `jbundler`:
+
+    echo "jar \"org.voltdb:voltdbclient\", \"6.8\"" > Jarfile
+
+Install out java dependencies
+
+    jruby -S jbundle install
+
+Then require `jbundler` in your code to load it in the CLASSPATH
+
+    require "jbundler"
 
 ## Usage
 
@@ -42,6 +55,9 @@ end
 ```
 
 ### Utilities
+
+Utilities are a custom addition from Full 360 to DRY things a little and add
+some Ruby idioms.
 
 #### ClientResponse utilities
 
@@ -83,7 +99,7 @@ response.map_first_row(0) do |row|
     row.get_long(0),
     row.get_string(1),
     row.get_long_as_boolean(2),
-    row.get_timestamp_as_ruby_date_time(3)
+    row.get_timestamp_as_ruby_time(3)
   )
 end
 ```
