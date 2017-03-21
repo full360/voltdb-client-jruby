@@ -1,3 +1,4 @@
+require "jbundler"
 require "voltdb"
 require "pry"
 

@@ -10,3 +10,6 @@
 .ruby-version
 examples.txt
 *.gem
+Jarfile
+Jarfile.lock
+.jbundler
