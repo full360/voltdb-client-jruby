@@ -3,7 +3,7 @@ require "date"
 
 module Voltdb
   autoload :ClientResponseStatusError, "voltdb/exceptions"
-  autoload :ClientConfig,              "voltdb/client"
+  autoload :ClientConfig,              "voltdb/client_config"
   autoload :ClientUtils,               "voltdb/client_utils"
   autoload :Client,                    "voltdb/client"
   autoload :ProcCallback,              "voltdb/callbacks"
