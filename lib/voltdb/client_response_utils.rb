@@ -49,6 +49,7 @@ module Voltdb
 
       client_response
     end
+
     # This method is used when we extend the Voltdb ClientResponse interface
     # and it's used for mapping VoltTableRows to an object. It receives the
     # index of the VoltTable that we want to map and a block that will be

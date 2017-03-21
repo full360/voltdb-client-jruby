@@ -1,6 +1,4 @@
 module Voltdb
-  class ClientConfig < Java::OrgVoltdbClient::ClientConfig; end
-
   class Client
     include ClientUtils
     extend Forwardable
