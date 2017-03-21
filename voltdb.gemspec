@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Alberto Grespan"]
   spec.email         = ["alberto@albertogrespan.com"]
 
-  spec.summary       = %q{JRuby VoltDB client wrapper}
-  spec.description   = %q{JRuby VoltDB java client wrapper}
+  spec.summary       = %q{JRuby VoltDB Client}
+  spec.description   = %q{A thin wrapper around the VoltDB Java client}
   spec.homepage      = "https://github.com/full360/voltdb-client-jruby"
   spec.license       = "MIT"
 
@@ -21,8 +21,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.13"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "bundler", "~> 1.14"
+  spec.add_development_dependency "rake", "~> 12"
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "rspec", "~> 3.5"
   spec.add_development_dependency "jbundler", "~> 0.9"
