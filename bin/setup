@@ -5,4 +5,7 @@ set -vx
 
 bundle install
 
-# Do any other automated setup that you need to do here
+# Create the Jarfile with the voltdbclient
+echo "jar \"org.voltdb:voltdbclient\", \"6.8\"" > Jarfile
+# Install our java dependencies
+jruby -S jbundle install
