@@ -1,3 +1,4 @@
+require "voltdbjruby_jars"
 require "forwardable"
 require "date"
 
