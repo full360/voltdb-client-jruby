@@ -14,6 +14,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/full360/voltdb-client-jruby"
   spec.license       = "MIT"
 
+  # This is important to get the jars installed
+  spec.platform      = "java"
+
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(examples|test|spec|features)/})
   end
@@ -21,9 +24,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.requirements << "jar org.voltdb, voltdbclient, 6.8"
+
+  spec.add_development_dependency "jar-dependencies", "~> 0.3"
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 12"
   spec.add_development_dependency "pry", "~> 0.10"
   spec.add_development_dependency "rspec", "~> 3.5"
-  spec.add_development_dependency "jbundler", "~> 0.9"
 end
