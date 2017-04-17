@@ -2,6 +2,16 @@
 
 A thin wrapper around the VoltDB Java client.
 
+## Versions
+
+We've decided that vendoring the `voltdbclient-x.x.jar` in the Gem as a
+dependency is the right way to do it. We are using VoltDB 6.8 and for that
+reason that's the one that's vendored. We are open on doing a different thing if
+it's the right solution.
+
+If required we could do multiple releases with different vendored clients. Just
+open an issue.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -15,19 +25,6 @@ And then execute:
 Or install it yourself as:
 
     $ gem install voltdbjruby
-
-Use `jbundler`, `lock_jar` or a similar to download and load the `voltdbclient`
-jar in the CLASSPATH. For example using `jbundler`:
-
-    echo "jar \"org.voltdb:voltdbclient\", \"6.8\"" > Jarfile
-
-Install out java dependencies
-
-    jruby -S jbundle install
-
-Then require `jbundler` in your code to load it in the CLASSPATH
-
-    require "jbundler"
 
 ## Usage
 
