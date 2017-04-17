@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  voltdb:
+    image: voltdb/voltdb-community:6.8
+    environment:
+      - HOST_COUNT=1
+    volumes:
+      - ./helloworld.sql:/tmp/helloworld.sql
+    ports:
+      - "21212:21212"
+      - "21211:21211"
+      - "8080:8080"
+      - "7181:7181"
+      - "5555:5555"
+      - "3021:3021"
