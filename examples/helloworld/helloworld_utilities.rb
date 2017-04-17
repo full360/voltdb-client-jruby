@@ -1,4 +1,5 @@
-# load the lib dir
+$:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
+
 require "voltdb"
 
 config = Voltdb::ClientConfig.new()

@@ -1,4 +1,5 @@
-# load the lib dir
+$:.unshift(File.join(File.dirname(__FILE__), "..", "..", "lib"))
+
 require "voltdb"
 java_import Java::OrgVoltdbClient::ClientResponse
 
