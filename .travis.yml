@@ -1,12 +1,17 @@
-dist: trusty
-sudo: false
-
 language: ruby
 cache: bundler
 rvm:
   - jruby-9.1.8.0
 jdk:
   - openjdk8
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: false
+    - os: osx
+      osx_image: xcode8.3
 
 install: bin/setup
 script: jruby -G -S rake
