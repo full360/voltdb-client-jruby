@@ -1,0 +1,12 @@
+dist: trusty
+sudo: false
+
+language: ruby
+cache: bundler
+rvm:
+  - jruby-9.1.8.0
+jdk:
+  - openjdk8
+
+install: bin/setup
+script: jruby -G -S rake
