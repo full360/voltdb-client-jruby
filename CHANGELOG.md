@@ -1,6 +1,6 @@
 # Changelog
 
-## next
+## 0.5.0
 
 - Remove `pry` as a development dependency
 - Add the examples dir with the Hello World example
