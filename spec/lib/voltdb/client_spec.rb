@@ -71,32 +71,6 @@ describe Voltdb::Client do
       end
     end
 
-    describe "#update_application_catalog" do
-      context "when sync call" do
-        it "calls update_application_catalog with the correct params" do
-          subject.update_application_catalog("some_path", "deployment_path")
-
-          expect(java_client)
-            .to have_received(:update_application_catalog)
-            .with("some_path", "deployment_path")
-        end
-      end
-
-      context "when async call" do
-        let(:cb) { proccallback.new }
-
-        it "calls update_application_catalog with the correct params" do
-          allow(proccallback).to receive(:new).with(any_args).and_return(cb)
-
-          subject.update_application_catalog("some_path", "deployment_path") {}
-
-          expect(java_client)
-            .to have_received(:update_application_catalog)
-            .with(cb, "some_path", "deployment_path")
-        end
-      end
-    end
-
     describe "#update_classes" do
       context "when sync call" do
         it "calls update_classes with the correct params" do

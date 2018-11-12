@@ -69,31 +69,6 @@ module Voltdb
       end
     end
 
-    # This method is a convenience method that is equivalent to reading the
-    # catalog file into a byte array in Java code, then calling call_procedure
-    # with "@UpdateApplicationCatalog" as the procedure name, followed by they
-    # bytes of the catalog and the string value of the deployment file. If a
-    # block is passed to the method an asyncronous call will be made
-    #
-    # @param catalog_path [String] the path to the voltdb catalog
-    # @param deployment_path [String] deployment_path the path to the
-    #   deployment.xml file
-    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
-    #   client response if the procedure was called synchronously, else will
-    #   return true if the procedure was properly queued or false if it was not
-    # @raise [ProcCallException, NoConnectionsException, IOException]
-    #   ProcCallException will be returned if called synchronously
-    def update_application_catalog(catalog_path, deployment_path, &block)
-      if block_given?
-        cb = ProcCallback.new(&block)
-        java_client.update_application_catalog(cb, catalog_path, deployment_path)
-      else
-        response = java_client.update_application_catalog(catalog_path, deployment_path)
-        response.extend(ClientResponseUtils)
-        response
-      end
-    end
-
     # This method is a convenience method that is equivalent to reading a
     # jarfile containing to be added/updated into a byte array in Java code,
     # then calling call_procedure with "@UpdateClasses" as the procedure name,
