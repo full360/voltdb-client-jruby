@@ -2,9 +2,9 @@
 begin
   require 'jar_dependencies'
 rescue LoadError
-  require 'org/voltdb/voltdbclient/6.8/voltdbclient-6.8.jar'
+  require 'org/voltdb/voltdbclient/8.3/voltdbclient-8.3.jar'
 end
 
 if defined? Jars
-  require_jar( 'org.voltdb', 'voltdbclient', '6.8' )
+  require_jar 'org.voltdb', 'voltdbclient', '8.3'
 end

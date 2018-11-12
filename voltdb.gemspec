@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.requirements << "jar org.voltdb, voltdbclient, 6.8"
+  spec.requirements << "jar org.voltdb, voltdbclient, 8.3"
 
   spec.add_development_dependency "jar-dependencies", "~> 0.3"
   spec.add_development_dependency "bundler", "~> 1.14"
