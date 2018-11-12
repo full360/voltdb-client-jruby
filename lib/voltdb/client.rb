@@ -134,13 +134,13 @@ module Voltdb
     # @param [Boolean] upsert true if want upsert instead of insert
     # @return [VoltBulkLoader]
     # @raise [Exception] if tableName can't be found in the catalog
-    def get_new_bulk_loader(table_name, max_batch_size, upsert, &block)
-      cb = BulkLoaderFailureCallback.new(&block)
+    def get_new_bulk_loader(table_name, max_batch_size, upsert, &failure)
+      fcb = BulkLoaderFailureCallback.new(&failure)
 
       if upsert
-        java_client.get_new_bulk_loader(table_name, max_batch_size, upsert, cb)
+        java_client.get_new_bulk_loader(table_name, max_batch_size, upsert, fcb)
       else
-        java_client.get_new_bulk_loader(table_name, max_batch_size, cb)
+        java_client.get_new_bulk_loader(table_name, max_batch_size, fcb)
       end
     end
 
