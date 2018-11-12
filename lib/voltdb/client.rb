@@ -172,6 +172,7 @@ module Voltdb
       :close,
       :create_stats_context,
       :get_build_string,
+      :is_auto_reconnect_enabled,
       :write_summary_csv
   end
 end
