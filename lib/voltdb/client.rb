@@ -25,6 +25,28 @@ module Voltdb
       @java_client = java_client
     end
 
+    # The method uses system procedure @GetPartitionKeys to get a set of
+    # partition values and then execute the stored procedure one partition at a
+    # time, and return an aggregated response. If a block is passed to the
+    # method an asyncronous call will be made
+    #
+    # @param proc_name [String] proc_name the stored procedure name
+    # @param *param [Array<Object>] a list of params
+    # @return [ClientResponseWithPartitionKey, True, False] instances of
+    #   procedure call results
+    # @raise [ProcCallException, NoConnectionsException, IOException]
+    def call_all_partition_procedure(proc_name, *params, &block)
+      if block_given?
+        cb = AllPartitionProcCallback.new(&block)
+        java_client.call_all_partition_procedure(cb, proc_name, *params_to_java_objects(*params))
+      else
+        java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).map do |partition|
+          partition.response.extend(ClientResponseUtils)
+          partition
+        end
+      end
+    end
+
     # Invokes a voltdb stored procedure based on its procedure name, a list of
     # params and a block only if an asynchronous call is required
     #
@@ -69,30 +91,13 @@ module Voltdb
       end
     end
 
-    # This method is a convenience method that is equivalent to reading a
-    # jarfile containing to be added/updated into a byte array in Java code,
-    # then calling call_procedure with "@UpdateClasses" as the procedure name,
-    # followed by the bytes of the jarfile and a string containing a
-    # comma-separates list of classes to delete from the catalog.If a block is
-    # passed to the method an asyncronous call will be made
+    # Get the list of VoltDB server hosts that this client has open TCP
+    # connections to
     #
-    # @param jar_path [String] path to the jar file with new/update clases
-    # @param classes_to_delete [String,String] comma-separated list of classes
-    #   to delete
-    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
-    #   client response if the procedure was called synchronously, else will
-    #   return true if the procedure was properly queued or false if it was not
-    # @raise [ProcCallException, NoConnectionsException, IOException]
-    #   ProcCallException will be returned if called synchronously
-    def update_classes(jar_path, classes_to_delete, &block)
-      if block_given?
-        cb = ProcCallback.new(&block)
-        java_client.update_classes(cb, jar_path, classes_to_delete)
-      else
-        response = java_client.update_classes(jar_path, classes_to_delete)
-        response.extend(ClientResponseUtils)
-        response
-      end
+    # @return [Array<InetSocketAddress>] An list of InetSocketAddress
+    #   representing the connected hosts
+    def get_connected_host_list
+      java_client.get_connected_host_list.to_ary
     end
 
     # Get an identifier for the cluster that this client is currently connected
@@ -104,23 +109,6 @@ module Voltdb
     #   timestamp when the cluster was started and the leader IP address
     def get_instance_id
       java_client.get_instance_id.to_ary
-    end
-
-    # Get the instantaneous values of the rate limiting values for this client
-    #
-    # @return [Array<Fixnum>] Array of Fixnum representing max throughput/sec
-    #   and max outstanding txns
-    def get_throughput_and_outstanding_txn_limits
-      java_client.get_throughput_and_outstanding_txn_limits.to_ary
-    end
-
-    # Get the list of VoltDB server hosts that this client has open TCP
-    # connections to
-    #
-    # @return [Array<InetSocketAddress>] An list of InetSocketAddress
-    #   representing the connected hosts
-    def get_connected_host_list
-      java_client.get_connected_host_list.to_ary
     end
 
     # Creates a new instance of a VoltBulkLoader that is bound to this Client.
@@ -144,25 +132,37 @@ module Voltdb
       end
     end
 
-    # The method uses system procedure @GetPartitionKeys to get a set of
-    # partition values and then execute the stored procedure one partition at a
-    # time, and return an aggregated response. If a block is passed to the
-    # method an asyncronous call will be made
+    # Get the instantaneous values of the rate limiting values for this client
     #
-    # @param proc_name [String] proc_name the stored procedure name
-    # @param *param [Array<Object>] a list of params
-    # @return [ClientResponseWithPartitionKey, True, False] instances of
-    #   procedure call results
+    # @return [Array<Fixnum>] Array of Fixnum representing max throughput/sec
+    #   and max outstanding txns
+    def get_throughput_and_outstanding_txn_limits
+      java_client.get_throughput_and_outstanding_txn_limits.to_ary
+    end
+
+    # This method is a convenience method that is equivalent to reading a
+    # jarfile containing to be added/updated into a byte array in Java code,
+    # then calling call_procedure with "@UpdateClasses" as the procedure name,
+    # followed by the bytes of the jarfile and a string containing a
+    # comma-separates list of classes to delete from the catalog.If a block is
+    # passed to the method an asyncronous call will be made
+    #
+    # @param jar_path [String] path to the jar file with new/update clases
+    # @param classes_to_delete [String,String] comma-separated list of classes
+    #   to delete
+    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
+    #   client response if the procedure was called synchronously, else will
+    #   return true if the procedure was properly queued or false if it was not
     # @raise [ProcCallException, NoConnectionsException, IOException]
-    def call_all_partition_procedure(proc_name, *params, &block)
+    #   ProcCallException will be returned if called synchronously
+    def update_classes(jar_path, classes_to_delete, &block)
       if block_given?
-        cb = AllPartitionProcCallback.new(&block)
-        java_client.call_all_partition_procedure(cb, proc_name, *params_to_java_objects(*params))
+        cb = ProcCallback.new(&block)
+        java_client.update_classes(cb, jar_path, classes_to_delete)
       else
-        java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).map do |partition|
-          partition.response.extend(ClientResponseUtils)
-          partition
-        end
+        response = java_client.update_classes(jar_path, classes_to_delete)
+        response.extend(ClientResponseUtils)
+        response
       end
     end
 
