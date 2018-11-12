@@ -167,7 +167,11 @@ module Voltdb
     end
 
     def_delegators :java_client,
-      :create_connection, :drain, :close, :create_stats_context,
-      :get_build_string, :write_summary_csv
+      :create_connection,
+      :drain,
+      :close,
+      :create_stats_context,
+      :get_build_string,
+      :write_summary_csv
   end
 end
