@@ -28,6 +28,21 @@ module Voltdb
     end
   end
 
+  class BulkLoaderSuccessCallback
+    java_import "org.voltdb.client.VoltBulkLoader.BulkLoaderSuccessCallback"
+    include Java::OrgVoltdbClient::ClientResponse
+    include Java::OrgVoltdbClientVoltBulkLoader::BulkLoaderSuccessCallback
+
+    def initialize(&block)
+      @block = block
+    end
+
+    def success(row_handle, client_response)
+      client_response.extend(ClientResponseUtils)
+      @block.call(row_handle, client_response)
+    end
+  end
+
   class AllPartitionProcCallback
     java_import Java::OrgVoltdbClient::ClientResponseWithPartitionKey
     include Java::OrgVoltdbClient::AllPartitionProcedureCallback
