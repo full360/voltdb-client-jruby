@@ -16,9 +16,7 @@ module Voltdb
     # @param config Voltdb::ClientConfig
     # @return Voltdb::Client
     def self.create_client(config)
-      client = ClientFactory.create_client(config)
-
-      self.new(client)
+      new(ClientFactory.create_client(config))
     end
 
     def initialize(java_client)
