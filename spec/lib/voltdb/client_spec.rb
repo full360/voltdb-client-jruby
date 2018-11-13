@@ -99,29 +99,68 @@ describe Voltdb::Client do
 
     describe "#get_new_bulk_loader" do
       let(:blfcb) { Voltdb::BulkLoaderFailureCallback }
-      let(:cb) { blfcb.new }
+      let(:fcb) { blfcb.new }
+      let(:blscb) { Voltdb::BulkLoaderSuccessCallback }
+      let(:scb) { blscb.new }
+      let(:upsert) { false }
+      let(:failure) { Proc.new {} }
+      let(:success) { Proc.new {} }
 
-      context "when upsert is not used" do
-        it "calls get_new_bulk_loader with the correct params" do
-          allow(blfcb).to receive(:new).with(any_args).and_return(cb)
+      context "when using only the failed callback" do
+        context "when upsert is false used" do
+          it "calls get_new_bulk_loader with the correct params" do
+            allow(blfcb).to receive(:new).with(any_args).and_return(fcb)
 
-          subject.get_new_bulk_loader("table", 10, false) {}
+            subject.get_new_bulk_loader("table", 10, upsert, failure)
 
-          expect(java_client)
-            .to have_received(:get_new_bulk_loader)
-            .with("table", 10, cb)
+            expect(java_client)
+              .to have_received(:get_new_bulk_loader)
+              .with("table", 10, fcb)
+          end
+        end
+
+        context "when upsert is true" do
+          let(:upsert) { true }
+
+          it "calls get_new_bulk_loader with the correct params" do
+            allow(blfcb).to receive(:new).with(any_args).and_return(fcb)
+
+            subject.get_new_bulk_loader("table", 10, upsert, failure)
+
+            expect(java_client)
+              .to have_received(:get_new_bulk_loader)
+              .with("table", 10, upsert, fcb)
+          end
         end
       end
 
-      context "when upsert is used" do
-        it "calls get_new_bulk_loader with the correct params" do
-          allow(blfcb).to receive(:new).with(any_args).and_return(cb)
+      context "when using both failed and success callbacks" do
+        context "when upsert is false used" do
+          it "calls get_new_bulk_loader with the correct params" do
+            allow(blfcb).to receive(:new).with(any_args).and_return(fcb)
+            allow(blscb).to receive(:new).with(any_args).and_return(scb)
 
-          subject.get_new_bulk_loader("table", 10, true) {}
+            subject.get_new_bulk_loader("table", 10, upsert, failure, success)
 
-          expect(java_client)
-            .to have_received(:get_new_bulk_loader)
-            .with("table", 10, true, cb)
+            expect(java_client)
+              .to have_received(:get_new_bulk_loader)
+              .with("table", 10, upsert, fcb, scb)
+          end
+        end
+
+        context "when upsert is true" do
+          let(:upsert) { true }
+
+          it "calls get_new_bulk_loader with the correct params" do
+            allow(blfcb).to receive(:new).with(any_args).and_return(fcb)
+            allow(blscb).to receive(:new).with(any_args).and_return(scb)
+
+            subject.get_new_bulk_loader("table", 10, upsert, failure, success)
+
+            expect(java_client)
+              .to have_received(:get_new_bulk_loader)
+              .with("table", 10, upsert, fcb, scb)
+          end
         end
       end
     end
