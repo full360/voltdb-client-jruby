@@ -6,7 +6,7 @@ CREATE TABLE helloworld (
 );
 PARTITION TABLE HELLOWORLD ON COLUMN DIALECT;
 
-CREATE PROCEDURE INSERT PARTITION ON TABLE helloworld COLUMN dialect
+CREATE PROCEDURE Insert PARTITION ON TABLE helloworld COLUMN dialect
    AS INSERT INTO helloworld (dialect, hello, world) VALUES (?, ?, ?);
-CREATE PROCEDURE SELECT PARTITION ON TABLE helloworld COLUMN dialect
+CREATE PROCEDURE Select PARTITION ON TABLE helloworld COLUMN dialect
    AS SELECT hello, world FROM helloworld WHERE dialect = ?;
