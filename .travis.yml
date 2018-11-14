@@ -1,12 +1,26 @@
-dist: trusty
+language: ruby
 sudo: false
 
-language: ruby
 cache: bundler
+
+before_install:
+  - gem update --system
+  - gem --version
+  - gem install bundler --no-document
+  - bundle --version
+
+install: bin/setup
+script: bundle exec rake
+
+env: JRUBY_OPTS="$JRUBY_OPTS --debug"
+
 rvm:
-  - jruby-9.1.8.0
+  - jruby-9.2
+  - jruby-9.1
+
 jdk:
   - openjdk8
 
-install: bin/setup
-script: jruby -G -S rake
+branches:
+  only:
+    - master
