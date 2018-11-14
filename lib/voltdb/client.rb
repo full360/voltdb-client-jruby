@@ -181,6 +181,10 @@ module Voltdb
     end
 
     def_delegators :java_client,
+      :backpressureBarrier, # deprecated
+      :blocking, # deprecated
+      :calculateInvocationSerializedSize, # deprecated
+      :configureBlocking, # deprecated
       :create_connection,
       :drain,
       :close,
