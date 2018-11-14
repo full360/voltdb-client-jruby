@@ -40,10 +40,16 @@ module Voltdb
     #   ProcCallException will be returned if called synchronously
     def call_all_partition_procedure(proc_name, *params, &block)
       if block_given?
-        cb = AllPartitionProcCallback.new(&block)
-        java_client.call_all_partition_procedure(cb, proc_name, *params_to_java_objects(*params))
+        java_client.call_all_partition_procedure(
+          AllPartitionProcCallback.new(&block),
+          proc_name,
+          *params_to_java_objects(*params)
+        )
       else
-        java_client.call_all_partition_procedure(proc_name, *params_to_java_objects(*params)).map do |partition|
+        java_client.call_all_partition_procedure(
+          proc_name,
+          *params_to_java_objects(*params)
+        ).map do |partition|
           partition.response.extend(ClientResponseUtils)
           partition
         end
@@ -64,12 +70,15 @@ module Voltdb
     #   ProcCallException will be returned if called synchronously
     def call_procedure(proc_name, *params, &block)
       if block_given?
-        cb = ProcCallback.new(&block)
-        java_client.call_procedure(cb, proc_name, *params_to_java_objects(*params))
+        java_client.call_procedure(
+          ProcCallback.new(&block),
+          proc_name,
+          *params_to_java_objects(*params)
+        )
       else
-        response = java_client.call_procedure(proc_name, *params_to_java_objects(*params))
-        response.extend(ClientResponseUtils)
-        response
+        java_client.call_procedure(proc_name, *params_to_java_objects(*params)).tap do |resp|
+          resp.extend(ClientResponseUtils)
+        end
       end
     end
 
@@ -89,12 +98,20 @@ module Voltdb
     #   ProcCallException will be returned if called synchronously
     def call_procedure_with_timeout(query_timeout, proc_name, *params, &block)
       if block_given?
-        cb = ProcCallback.new(&block)
-        java_client.call_procedure_with_timeout(cb, query_timeout, proc_name, *params_to_java_objects(*params))
+        java_client.call_procedure_with_timeout(
+          ProcCallback.new(&block),
+          query_timeout,
+          proc_name,
+          *params_to_java_objects(*params)
+        )
       else
-        response = java_client.call_procedure_with_timeout(query_timeout, proc_name, *params_to_java_objects(*params))
-        response.extend(ClientResponseUtils)
-        response
+        java_client.call_procedure_with_timeout(
+          query_timeout,
+          proc_name,
+          *params_to_java_objects(*params)
+        ).tap do |resp|
+          resp.extend(ClientResponseUtils)
+        end
       end
     end
 
@@ -171,12 +188,11 @@ module Voltdb
     #   ProcCallException will be returned if called synchronously
     def update_classes(jar_path, classes_to_delete, &block)
       if block_given?
-        cb = ProcCallback.new(&block)
-        java_client.update_classes(cb, jar_path, classes_to_delete)
+        java_client.update_classes(ProcCallback.new(&block), jar_path, classes_to_delete)
       else
-        response = java_client.update_classes(jar_path, classes_to_delete)
-        response.extend(ClientResponseUtils)
-        response
+        java_client.update_classes(jar_path, classes_to_delete).tap do |resp|
+          resp.extend(ClientResponseUtils)
+        end
       end
     end
 
