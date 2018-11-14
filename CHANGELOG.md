@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.0
 
 - Update the wrapper client to VoltDB 8.3
   [#9](https://github.com/full360/voltdb-client-jruby/pull/9)
