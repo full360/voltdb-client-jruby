@@ -1,4 +1,4 @@
-# Voltdb JRuby Client
+# Voltdb JRuby Client [![Build Status](https://travis-ci.org/full360/voltdb-client-jruby.svg?branch=master)](https://travis-ci.org/full360/voltdb-client-jruby)
 
 A thin wrapper around the VoltDB Java client.
 
