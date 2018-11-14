@@ -118,11 +118,14 @@ also run `bin/console` for an interactive prompt that will allow you to
 experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To
-release a new version, update the version number in `version.rb`. If you have
-ownership rights run `bundle exec rake release`, which will create a git tag for
-the version, push git commits and tags, and push the `.gem` file to
-[rubygems.org](https://rubygems.org). If you don't have create the git tags
-manually and push them, Travis CI will make the rest happen.
+release a new version, update the version number in `version.rb`.
+If you have ownership rights run `bundle exec rake release`, which will create a
+git tag for the version, push git commits and tags, and push the `.gem` file to
+[rubygems.org](https://rubygems.org).
+If you don't have create the git tags manually using the following format
+`vX.X.X`, push them, Travis CI will make the rest happen.
+
+The recommended way to release is using the Travis CI deploy integration.
 
 ## Contributing
 
