@@ -26,6 +26,16 @@ Or install it yourself as:
 
     $ gem install voltdbjruby
 
+## Vendor
+
+Installing and vendor jar dependencies from maven using `jar-dependencies` gem
+and the `rake` task.
+
+To update the vendored jar dependencies we use a new `rake` task called `vendor`
+that will download jars from Maven and vendor them in the `lib/` directory.
+
+    bundle exec rake vendor
+
 ## Usage
 
 ### Basic example

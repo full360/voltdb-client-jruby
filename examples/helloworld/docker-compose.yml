@@ -2,7 +2,7 @@ version: "2"
 
 services:
   voltdb:
-    image: voltdb/voltdb-community:6.8
+    image: voltdb/voltdb-community:8.3
     environment:
       - HOST_COUNT=1
     volumes:
