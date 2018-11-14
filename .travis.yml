@@ -25,6 +25,10 @@ branches:
   only:
     - master
 
+notifications:
+  email:
+    - r-and-d@slack.full360.com
+
 deploy:
   provider: rubygems
   api_key:
