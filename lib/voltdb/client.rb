@@ -30,9 +30,14 @@ module Voltdb
     #
     # @param proc_name [String] proc_name the stored procedure name
     # @param *param [Array<Object>] a list of params
-    # @return [ClientResponseWithPartitionKey, True, False] instances of
-    #   procedure call results
+    # @yield [response] async response that will be invoked with procedure
+    #   results
+    # @return [ClientResponseWithPartitionKey, true, false] VoltDB client
+    #   response with partition key if the procedure was called synchronously,
+    #   else will return true if the procedure was properly queued or false if
+    #   it was not
     # @raise [ProcCallException, NoConnectionsException, IOException]
+    #   ProcCallException will be returned if called synchronously
     def call_all_partition_procedure(proc_name, *params, &block)
       if block_given?
         cb = AllPartitionProcCallback.new(&block)
@@ -50,7 +55,9 @@ module Voltdb
     #
     # @param proc_name [String] the stored procedure name
     # @param *params [Array<Object>] a list of params
-    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
+    # @yield [response] async response that will be invoked with procedure
+    #   results
+    # @return [Java::OrgVoltdbClient::ClientResponse, true, false] VoltDB
     #   client response if the procedure was called synchronously, else will
     #   return true if the procedure was properly queued or false if it was not
     # @raise [ProcCallException, NoConnectionsException, IOException]
@@ -73,7 +80,9 @@ module Voltdb
     # @param query_timeout [Fixnum] the stored procedure timeout
     # @param proc_name [String] the stored procedure name
     # @param *params [Array<Object>] a list of params
-    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
+    # @yield [response] async response that will be invoked with procedure
+    #   results
+    # @return [Java::OrgVoltdbClient::ClientResponse, true, false] Voltdb
     #   client response if the procedure was called synchronously, else will
     #   return true if the procedure was properly queued or false if it was not
     # @raise [ProcCallException, NoConnectionsException, IOException]
@@ -118,7 +127,9 @@ module Voltdb
     # @param max_batch_size [Fixnum] to collect for the table before pushing a
     #   bulk insert
     # @param [Boolean] upsert true if want upsert instead of insert
-    # @return [VoltBulkLoader]
+    # @yieldparam failure [row, list, response] BulkLoaderFailureCallback
+    # @yieldparam success [row, response] BulkLoaderSuccessCallback
+    # @return [VoltBulkLoader] instance of VoltBulkLoader
     # @raise [Exception] if tableName can't be found in the catalog
     def get_new_bulk_loader(table_name, max_batch_size, upsert, failure, success = nil)
       fcb = BulkLoaderFailureCallback.new(&failure)
@@ -151,7 +162,9 @@ module Voltdb
     # @param jar_path [String] path to the jar file with new/update clases
     # @param classes_to_delete [String,String] comma-separated list of classes
     #   to delete
-    # @return [Java::OrgVoltdbClient::ClientResponse, True, False] Voltdb
+    # @yield [response] async response that will be invoked with procedure
+    #   results
+    # @return [Java::OrgVoltdbClient::ClientResponse, true, false] Voltdb
     #   client response if the procedure was called synchronously, else will
     #   return true if the procedure was properly queued or false if it was not
     # @raise [ProcCallException, NoConnectionsException, IOException]
