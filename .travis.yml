@@ -1,12 +1,38 @@
-dist: trusty
+language: ruby
 sudo: false
 
-language: ruby
 cache: bundler
+
+before_install:
+  - gem update --system
+  - gem --version
+  - gem install bundler --no-document
+  - bundle --version
+
+install: bin/setup
+script: bundle exec rake
+
+env: JRUBY_OPTS="$JRUBY_OPTS --debug"
+
 rvm:
-  - jruby-9.1.8.0
+  - jruby
+  - jruby-9.1
+
 jdk:
   - openjdk8
 
-install: bin/setup
-script: jruby -G -S rake
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    - r-and-d@slack.full360.com
+
+deploy:
+  provider: rubygems
+  api_key:
+    secure: WnxCak7F22vXEazWjd3n1Hij3kmOyZE2+w0iPgruDV8b8eO/WKnp3RAyoJD5d0pg6rrAOtTMX81o0z16/ZcWzi9pRsWRHmCiGe8laCuKymCFwhDdWJLpIfggbNx9lJ5f4EVE9MCbqvZpPSJakTjk9AQvdD6wD+TnHC4qn8BvP1GSbcL1Hd899jVL0BM3l18mrtHMEOa7QJiU51odrs1b9VhtUuJpLJ2T23VIpwbaFuci6pS7VTuRT7e2tmQOQVbC/kLkzND/x+hwWIUxhrI0rkMeIisBnx2TQkOLOfWmiPBgC1M4tFtW6XVfV+Ol/EH0C2/jWlyqjG+u9/TEmPDufrWVxdy4s4hfIgA2FG/lYqqGf9GLMPfOZGR+pnq7lPE2b9yZfxwTPqdf+NxQM6JeDc9k7IfXLZ9dodQZlQDZ8ubdeeQVmjAIfckHddX8TmrN+qAuS2DnqxzO19AAD/+9VNz5Ogg3344SbajMIeo2aZNHSYGxioK49WUxRYrA4bpNH1eixpUkZDhuwUiuna95DM7cZK9d2XQDAQYQ+vN4xJhI1u5LjYW5zrGiUW1uWqblQXcfDfLwvkjsTaWZ8R/mPaKjnj2ax4PADckisF5SdNnyUu288ytjS/YgAbbS9aasL6d4KjDMJ9b7oGHVZJihmoDck3vNxLMdCoP3SGahIsA=
+  on:
+    branch: master
+    tags: true
