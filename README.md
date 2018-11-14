@@ -5,7 +5,7 @@ A thin wrapper around the VoltDB Java client.
 ## Versions
 
 We've decided that vendoring the `voltdbclient-x.x.jar` in the Gem as a
-dependency is the right way to do it. We are using VoltDB 6.8 and for that
+dependency is the right way to do it. We are using VoltDB 8.3 and for that
 reason that's the one that's vendored. We are open on doing a different thing if
 it's the right solution.
 
@@ -118,10 +118,11 @@ also run `bin/console` for an interactive prompt that will allow you to
 experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To
-release a new version, update the version number in `version.rb`, and then run
-`bundle exec rake release`, which will create a git tag for the version, push
-git commits and tags, and push the `.gem` file to
-[rubygems.org](https://rubygems.org).
+release a new version, update the version number in `version.rb`. If you have
+ownership rights run `bundle exec rake release`, which will create a git tag for
+the version, push git commits and tags, and push the `.gem` file to
+[rubygems.org](https://rubygems.org). If you don't have create the git tags
+manually and push them, Travis CI will make the rest happen.
 
 ## Contributing
 
