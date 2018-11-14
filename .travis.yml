@@ -16,7 +16,7 @@ env: JRUBY_OPTS="$JRUBY_OPTS --debug"
 
 rvm:
   - jruby
-  - jruby-9.1.17.0
+  - jruby-9.1
 
 jdk:
   - openjdk8
